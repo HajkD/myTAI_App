@@ -126,7 +126,9 @@ shinyServer(function(input, output) {
     withProgress(message = 'Creating plot', value = 0.1, {
       PlotCorrelation( PhyloExpressionSet    = PhyloExpressionSet(),
                        DivergenceExpressionSet = DivergenceExpressionSet(),
-                       method                  = "kendall", 
+                       method                  = switch(input$method , "pearson" = 'pearson', 
+                                                        "kendall" = 'kendall', 
+                                                        "spearman" = 'spearman'), 
                        linearModel             = TRUE )
       
       incProgress(0.5)
