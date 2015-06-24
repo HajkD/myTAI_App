@@ -4,7 +4,7 @@ data(DivergenceExpressionSetExample)
 
 shinyServer(function(input, output) {
   
-  PhyloExpressionSet <- function(){
+  ExpressionSet <- function(){
     
     inFile <- input$file1
     
@@ -16,21 +16,9 @@ shinyServer(function(input, output) {
     
   }
   
-  DivergenceExpressionSet <- function(){
-    
-    inFile <- input$file2
-    
-    if (is.null(inFile))
-      return(NULL)
-    
-    read.csv(inFile$datapath, header=input$header, sep=input$sep, 
-             quote=input$quote)
-    
-  }
-  
   output$head <- renderTable({
     
-    head(PhyloExpressionSet(), 3)
+    head(ExpressionSet(), 3)
     
   })
   
@@ -52,10 +40,12 @@ shinyServer(function(input, output) {
                              This is important to be able to assume the linear 
                              independence of TAI and TDI measures.")
   
-  output$text3 <- renderText("The PlotPattern() function first computes the TAI
-                             (given a PhyloExpressionSet) to visualize the TAI  
-                             profile, their standard deviation and statistical 
-                             significance.")
+#   output$text3 <- renderText("The PlotPattern() function first computes the TAI
+#                              (given a PhyloExpressionSet) to visualize the TAI  
+#                              profile, their standard deviation and statistical 
+#                              significance.")
+  
+  output$text3 <- renderText("Plot Transcriptome Age Index")
   
   output$text4 <- renderText("The PlotPattern() function first computes the TDI 
                              (given a DivergenceExpressionSet) to visualize the 
@@ -74,14 +64,14 @@ shinyServer(function(input, output) {
   output$header1 <- renderText("PhyloExpressionSet")
   output$header2 <- renderText("DivergenceExpressionSet")
   
-  output$textTai <- renderText("TAI: ")
-  output$textTdi <- renderText("TDI: ")
+  output$textTai <- renderText("Transcriptome Age Index: ")
+  output$textTdi <- renderText("Transcriptome Divergence Index: ")
   
   output$tai <- renderPrint({
     
     if(input$runButton3 == 0) return(NULL) 
-    if(is.null(PhyloExpressionSet())) return(NULL)
-    TAI(PhyloExpressionSet())
+    if(is.null(ExpressionSet())) return(NULL)
+    TAI(ExpressionSet())
     
   })
   
@@ -143,15 +133,15 @@ shinyServer(function(input, output) {
     
     if(input$runButton3 == 0) return(NULL)
     validate(
-      need(PhyloExpressionSet() != "", "Please select a Phylo Expression data set")
+      need(ExpressionSet() != "", "Please select an ExpressionSet!")
     )
     
     withProgress(message = 'Creating plot', value = 0.1, {
-      PlotPattern( ExpressionSet = PhyloExpressionSet(), 
+      PlotPattern( ExpressionSet = ExpressionSet(), 
                    type          = "l", 
                    lwd           = 6, 
                    xlab          = "Ontogeny", 
-                   ylab          = "TAI" )
+                   ylab          = "Transcriptome Age Index" )
       
       incProgress(0.5)
     })
