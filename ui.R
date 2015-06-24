@@ -2,17 +2,14 @@ library(shiny)
 
 shinyUI(fluidPage(
   
-  titlePanel("MyTAI App"),
+  titlePanel("Performing Phylotranscriptomics with myTAI App"),
   
   sidebarLayout(
-    sidebarPanel( "Upload your data files!:",
-                  h3(),
-                  fileInput('file1', 'Choose PhyloExpressionSet file to upload',
-                            accept = '.csv'),
-                  fileInput('file2', 'Choose DivergenceExpressionSet file to upload',
-                            accept = '.csv'),
+    
+    sidebarPanel( 
+                
+                  checkboxInput('header', 'Is a Header Included?', TRUE),
                   tags$hr(),
-                  checkboxInput('header', 'Header', TRUE),
                   radioButtons('sep', 'Separator',
                                c(Comma=',',
                                  Semicolon=';',
@@ -23,22 +20,23 @@ shinyUI(fluidPage(
                                  'Double Quote'='"',
                                  'Single Quote'="'"),
                                '"'),
-                  width = 3
+                  "Upload ExpressionSet:",
+                  h3(),
+                  fileInput('file1', 'Select ExpressionSet',
+                            accept = '.csv'),
+                  width = 4
     ),
     
-    mainPanel("Getting Started",
+    mainPanel("Overview",
               tabsetPanel(
                 
-                tabPanel("data",
-                         h3(),
-                         textOutput("textheader1"),
-                         tableOutput("head"),
-                         h3(),
-                         textOutput("textheader2"),
-                         tableOutput("head2")
+                tabPanel("Main",
+                         h4("Capturing Evolutionary Signals in Developmental Transcriptomes")
+                         
+                         
                 ),
                 
-                tabPanel("Plot distribution",
+                tabPanel("PlotDistribution",
                          h3(),                         
                          textOutput("text1"),
                          actionButton("runButton", "Run"),
@@ -48,7 +46,7 @@ shinyUI(fluidPage(
                          downloadButton('downloadDataDist', 'Download')
                 ),
                 
-                tabPanel("Plot correlation",
+                tabPanel("PlotCorrelation",
                          h3(),
                          textOutput("text2"),
                          h3(),
@@ -61,9 +59,9 @@ shinyUI(fluidPage(
                                       inline = TRUE),
                          downloadButton('downloadDataCorr', 'Download')
                 ),
-                tabPanel("Plot pattern",
+                tabPanel("PlotPattern",
                          h3(),
-                         column(6,
+                         column(12,
                                 textOutput("header1"),
                                 h3(),
                                 textOutput("text3"),
@@ -73,22 +71,13 @@ shinyUI(fluidPage(
                                 plotOutput("plotpatternPhylo"),
                                 textOutput("textTai"),
                                 verbatimTextOutput("tai")),
-                         column(6,
-                                textOutput("header2"),
-                                h3(),
-                                textOutput("text4"),
-                                h3(),
-                                actionButton("runButton4", "Run"),
-                                h3(),
-                                plotOutput("plotpatternDivergence"),
-                                textOutput("textTdi"),
-                                verbatimTextOutput("tdi")),
+                         
                          radioButtons('formatPattern', 'Document format', c('PDF', 'PNG', 'JPG'),
                                       inline = TRUE),
                          downloadButton('downloadDataPattern', 'Download')
                 ),
                 
-                tabPanel("Plot relative expression levels",
+                tabPanel("PlotRE",
                          h3(),
                          radioButtons('dataset', 'Which data set: ', 
                                       c('PhyloExpressionSet', 'DivergenceExpressionSet'),
@@ -101,7 +90,7 @@ shinyUI(fluidPage(
                          downloadButton('downloadDataRE', 'Download')
                 ),
                 
-                tabPanel("Mean Expression Levels",
+                tabPanel("PlotMeans",
                          h3(),
                          column(6,
                                 textOutput("textMeansPhylo"),
@@ -120,7 +109,7 @@ shinyUI(fluidPage(
                          downloadButton('downloadDataMeans', 'Download')
                 )
               ),
-              width = 9
+              width = 8
     )
     
   ))
