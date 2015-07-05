@@ -2,6 +2,9 @@
 
 ![](myTAI_App.png)
 
+
+## Please note that this app is in an early stage and is under constant development 
+
 ## Download App
 
 A Shiny App to Perform Phylotranscriptomics with [myTAI](http://cran.r-project.org/web/packages/myTAI/index.html)
